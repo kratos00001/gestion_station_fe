@@ -1,7 +1,8 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import '../models/station.dart'; // Import the Station model
-import '../services/api_service.dart'; // Import the ApiService
+
+import '../services/api_service.dart';
 
 class MapView extends StatefulWidget {
   @override
@@ -29,6 +30,7 @@ class _MapViewState extends State<MapView> {
           title: station.nom,
           snippet: station.adresse,
         ),
+        // icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueViolet), // Example for custom marker color
       ))
           .toSet();
     });
@@ -38,7 +40,8 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Stations Map'),
+        title: Text('Stations Map', style: TextStyle(color: Colors.white)), // Adjust the title style if needed
+        backgroundColor: Colors.deepPurple, // Adjust AppBar color to fit your theme
       ),
       body: GoogleMap(
         onMapCreated: _onMapCreated,
@@ -47,6 +50,11 @@ class _MapViewState extends State<MapView> {
           zoom: 11.0,
         ),
         markers: _markers,
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _loadStations(), // Example action: Refresh stations
+        child: Icon(Icons.refresh),
+        backgroundColor: Colors.deepPurple, // Adjust FAB color to fit your theme
       ),
     );
   }

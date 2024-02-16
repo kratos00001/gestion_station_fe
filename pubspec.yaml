@@ -36,7 +36,7 @@ dependencies:
   flutter_secure_storage: ^4.2.0 # For secure storage of JWT tokens
   flutter_dotenv: ^5.0.0 # To manage environment variables
   firebase_messaging: ^14.7.15 # For Firebase notifications
-
+  image: ^4.1.7
 
 
   # The following adds the Cupertino Icons font to your application.

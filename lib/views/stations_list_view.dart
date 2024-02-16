@@ -19,9 +19,12 @@ class _StationsListViewState extends State<StationsListView> {
 
   @override
   Widget build(BuildContext context) {
+    ThemeData theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Stations List'),
+        centerTitle: true,
+        backgroundColor: theme.primaryColor,
       ),
       body: FutureBuilder<List<Station>>(
         future: futureStations,
@@ -32,21 +35,44 @@ class _StationsListViewState extends State<StationsListView> {
             return Center(child: Text("Error: ${snapshot.error}"));
           } else if (snapshot.hasData) {
             List<Station>? stations = snapshot.data;
-            return ListView.builder(
+            return ListView.separated(
               itemCount: stations!.length,
+              separatorBuilder: (context, index) => Divider(color: theme.dividerColor),
               itemBuilder: (context, index) {
                 Station station = stations[index];
-                return ListTile(
-                  title: Text(station.nom),
-                  subtitle: Text(station.adresse),
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StationDetailsPage(station: station),
+                return Card(
+                  elevation: 2,
+                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: ListTile(
+                    contentPadding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                    title: Text(
+                        station.nom,
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.deepPurple,
+                        ),
+                    ),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 5),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text('Address: ${station.adresse}', style: theme.textTheme.subtitle1),
+                          Text('City: ${station.ville}', style: theme.textTheme.subtitle1),
+                        ],
                       ),
-                    );
-                  },
+                    ),
+                    trailing: Icon(Icons.arrow_forward_ios, size: 20, color: theme.primaryColor),
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => StationDetailsPage(station: station),
+                        ),
+                      );
+                    },
+                  ),
                 );
               },
             );
